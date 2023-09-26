@@ -1,0 +1,356 @@
+.content-side-delivery{
+    background-image: url(../images/delivery/backgroundMap2.png);
+    background-size:cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100%;
+    width: 100%;
+    border-radius: 20px;
+    display: flex;
+    position: relative;
+}
+
+.select-box{
+    align-self: center;
+    margin: auto;
+    width: 20vw;
+    background-color: var(--transparent-color);
+    min-width: 200px;
+    aspect-ratio: 1;
+    border: 8px solid var(--text-color2);
+    border-radius: 20px;
+    text-align: center;
+}
+
+.imgbox img{    
+    width: 70%;
+    height: 70%;
+    border-radius: 20px;
+    object-fit: cover;
+    margin: 10px;
+    cursor: pointer;
+    transition: 0.5s transform;
+}
+
+.imgbox img:hover{
+    transform: scale(1.1);
+    transition-delay: 0.5;
+}
+
+.invetoryOpen{
+    align-self: center;
+    margin: auto;
+    width: 80%;
+    min-width: 280px;
+    height: 90%;
+    background-color: var(--transparent-color);
+    border-radius: 20px;
+    font-size: 25px;
+    border: 8px solid var(--text-color2);
+    border-radius: 20px;
+    text-align: center;
+    position: absolute;
+    top:5%;
+    left:10%;
+    z-index: 2;
+}
+.closeButton{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 30px;
+    height: 30px;
+    border-radius: 20px;
+    background-color: red;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.closeButton2{
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    width: 20px;
+    height: 20px;
+    border-radius: 10px;
+    background-color: red;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    font-size: 10px;
+}
+
+.invetoryOpen h2{
+    margin: 20px 0px
+}
+
+.inventory-select{
+    width: 100%;
+    height: 84%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    overflow-y: scroll;
+}
+
+.invetory-item {
+    width : 20%;
+    min-width: 180px; 
+    min-height: 200px;
+    border: 2px var(--text-color2) solid;
+    background-color: var(--first-color);
+    position: relative;
+    border-radius: 20px;
+}
+
+.item-header{
+    width: 100%;
+    height: 20%;
+    display: flex;
+    flex-direction: column;
+}
+
+.item-body{
+    width: 100%;
+    height: 65%;
+    display: flex;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.item-img img{
+    width: 70%;
+    border-radius: 20px;
+    object-fit: cover;
+}
+
+.item-footer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 3px;
+}
+
+.btn-select{
+    width: 70%;
+    margin-top: -10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    font-size: 16px;
+    color: white;
+    font-weight: bold;
+    text-shadow: 2px 2px 1px rgba(0, 0, 0, 0.562);
+    background-color: var(--text-color2);
+}
+
+.inventory-select::-webkit-scrollbar-track
+{
+	border-radius: 8px;
+	background-color: #6c6c6c;
+}
+
+.inventory-select::-webkit-scrollbar
+{
+	width: 8px;
+	background-color: #f5f5f500;
+}
+
+.inventory-select::-webkit-scrollbar-thumb
+{
+	border-radius: 8px;
+	background-color: #000000;
+}
+
+.byke-menu{
+    width: 100%;
+    height: 100%;
+    
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0 10%;
+}
+
+.byke-menu-img{
+    background-color: var(--transparent-color);
+    border-radius: 20px;
+    border: var(--text-color2) 4px solid;
+    width: auto;
+    position: relative;
+    min-width: 300px;
+    max-width: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.byke-menu-img h3{
+    font-size: 50%;
+    text-shadow: 3px 3px 3px rgba(0, 0, 0, 0.562);
+    position: absolute;
+    top: 10%;
+    
+    
+}
+
+.byke-menu img{
+    width: 100%;
+}
+
+#bgdByke{
+    position: absolute;
+    z-index: 0;
+    bottom: 10px;
+}
+
+
+.choose-burger{
+    margin: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 8vw;
+    background-color: var(--transparent-color);
+    min-width: 165px;
+    min-height: 165px;
+    border: 8px solid var(--text-color2);
+    border-radius: 20px;
+    text-align: center;
+    z-index: 1;
+}
+
+.choose-burger p{
+    margin: 0px;
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+}
+
+
+.byke-info{
+    width: 30%;
+    min-width: 300px;
+    height: auto;
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: var(--text-color2) 4px solid;
+    gap: 3% 0;
+    background-color: var(--transparent-color);
+    border-radius: 20px;
+    
+}
+
+
+
+.imgbox2{
+    width: 60%;
+    height: 70%;
+    border-radius: 20px;
+    margin: 10px;
+    cursor: pointer;
+    transition: 0.5s;
+}
+
+.imgbox2 h3{
+    position: relative;
+}
+
+.imgbox2:hover{
+    transform: scale(1.1);
+}
+
+
+.bag-burgers{
+    z-index: 1;
+    bottom: 40vh;
+    right: 2vw;
+    display: flex;
+    flex-direction: row;
+    gap: 3%;
+}
+
+.closeBox{ 
+    opacity: 0.5;
+    aspect-ratio: 1;
+    background-color: var(--third-color);
+    width: 6vw;
+    min-width: 80px;
+    border: 5px solid var(--text-color);
+    border-radius: 20px;
+}
+
+.freeBox{
+    aspect-ratio: 1;
+    background-color: var(--third-color);
+    width: 6vw;
+    min-width: 80px;
+    border: 5px solid var(--text-color2);
+    border-radius: 20px;
+    position: relative;
+}
+
+.freeBox img{
+    position: absolute;
+    bottom: 5px;
+}
+
+.byke-info img{
+    width: 15%;
+}
+
+.byke-info-section{
+    width: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    align-items: center;
+    gap: 0 2%;
+    
+}
+
+
+.byke-info-section h3{
+    font-size: clamp(20px, 2vw, 30px);
+    color: white;
+    text-shadow: 3px 3px 2px rgba(0, 0, 0, 0.562);
+}
+
+.byke-info-section button{
+    background-color: var(--text-color2);
+    border-radius: 10px;
+}
+
+.cancel-button{
+    background-color: red !important;
+}
+
+.block-button{
+    cursor: not-allowed !important;
+    background-color: #6c6c6c !important;
+}
+
+.notChoiceButton{
+    background-color: #6c6c6c !important;
+}
+
+.button{
+    width: 130px;
+}
+
+.info-header h3{
+    font-size: 50%;
+    text-shadow: 3px 3px 2px rgba(0, 0, 0, 0.562);;
+}

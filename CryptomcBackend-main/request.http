@@ -1,0 +1,21 @@
+###
+POST http://localhost:3000/api/user
+Content-Type: application/json
+
+{
+    "wallet": "0xCd86C7285669086734883cb6Fa19eBBfF80Ec67A",
+    "nftPermanentes": [
+        { "id": "123456789" },
+        { "id": "123456789" },
+        { "id": "123456789" },
+        { "id": "123456789" }
+    ]
+}
+
+###
+POST http://localhost:3000/api/user/banned
+Content-Type: application/json
+
+{
+    "wallet": "0xCd86C7285669086734883cb6Fa19eBBfF80Ec67A"
+}

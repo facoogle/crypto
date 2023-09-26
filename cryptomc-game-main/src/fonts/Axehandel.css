@@ -1,0 +1,9 @@
+
+@font-face {
+    font-family: 'axehandelregular';
+    src: url('axehandel-webfont.woff2') format('woff2'),
+         url('axehandel-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
