@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
@@ -9,9 +9,49 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchUser } from "../../redux/user/userActions";
 import { fetchInventoryData } from "../../redux/inventory/inventoryActions";
 
-class NavBar extends React.Component {
-  render() {
+import { ethers } from "ethers";
+ function NavBar (props) {
+  const [wallet, setWallet] = useState('0x000')
+  
+   const connectMeta = async () =>{
 
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    await provider.send("eth_requestAccounts", []);
+    const address = await sendWallet()
+    setWallet()
+   /*  try {
+      const signer = await provider.getSigner();
+      const address = await signer.getAddress();
+      setWallet(address)
+    } catch (err) {
+      console.log("message:", err);
+    } */
+  };
+
+  const sendWallet = async () => {
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+
+    try {
+      const signer = await provider.getSigner();
+      const address = await signer.getAddress();
+      return address
+    } catch (err) {
+      
+    }
+  }
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      sendWallet().then((data) => {
+        console.log(data)
+        setWallet(data)
+      })
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
+  
+
+    
     let value ; 
 
     const MountUnmount = (value) => {
@@ -41,7 +81,7 @@ class NavBar extends React.Component {
         <div className="sidebar-header">
           <Button
             variant="link"
-            onClick={this.props.toggle}
+            onClick={props.toggle}
             style={{ color: "#fff" }}
             className="mt-4"
           >
@@ -49,25 +89,27 @@ class NavBar extends React.Component {
           <img src={logo} alt="logo" className="logo-sidebar" />
           <h3>CryptoMC</h3>
         </div>
-        <Button variant="outline-info" onClick={this.props.toggle}>
+        <Button variant="outline-info" onClick={props.toggle}>
         
-        {this.props.isOpen?<FontAwesomeIcon icon={faChevronLeft} />: <FontAwesomeIcon icon={faChevronRight} />}
+        {props.isOpen?<FontAwesomeIcon icon={faChevronLeft} />: <FontAwesomeIcon icon={faChevronRight} />}
         </Button>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="ml-auto navbar-buttons" navbar>
             <a className="navbar-pancake" href="#" target="_blank"><img src={pancake} alt=""/>BUY $CMC</a>
             <MountUnmount/>
-            <img src={logo} alt="logo" className="navbar-logo"/>
+            <img src={logo} onClick={() => connectMeta()} alt="logo" className="navbar-logo"/>
             <div className="navbar-account">
               0 &nbsp;  $CMC <br/>
-              <span className="navbar-bot-account">0X0000_00000</span> 
+              {wallet && <span className="navbar-bot-account">{`${wallet.substring(0,4)}..${wallet.substring(wallet.length-4, wallet.length)}`}</span> }
             </div>
           </Nav>
         </Navbar.Collapse>
       </Navbar>
     );
   }
-}
+
+
+
 
 export default NavBar;
