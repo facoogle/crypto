@@ -9,7 +9,7 @@ const userSchema = new Schema(
         nftTemporales: [
             {
                 id: String,
-                usos: String,
+                usos: Number,
                 ganancia: Object,
                 porcentajeExito: String,
                 rareza: String,
