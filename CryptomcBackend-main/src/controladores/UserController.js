@@ -2,6 +2,7 @@ const jwt = require("jsonwebtoken");
 const User = require("../modelos/user");
 const UserBanned = require("../modelos/userBanned");
 const { v1: uuidv1, v4: uuidV4 } = require("uuid");
+const mongoose = require("mongoose")
 
 createUser = async (req, res) => {
   const { wallet } = req.body;
@@ -16,12 +17,15 @@ createUser = async (req, res) => {
       wallet: wallet,
       cmsBalance: 0,
       cmsRetiro: 0,
+      token: 0,
+      gas: 0,
+      contract: 0,
       nftTemporales: [],
       nftPermanentes: [],
     });
 
     const savedUser = await user.save();
-    
+
     return res.status(200).json({ savedUser });
   } catch (error) {
     return res.status(400).json({ message: "Algo esta mal en el servidor" });
@@ -71,31 +75,35 @@ getNftUser = async (req, res) => {
 
 createNftTemporal = async (req, res) => {
   try {
-    const { wallet } = req.body //pide el id de la cuenta en vez de la wallet, ese id se consigue en la base de datos!
+    const { wallet, type, rarity, name } = req.body //pide el id de la cuenta en vez de la wallet, ese id se consigue en la base de datos!
     console.log(req.body)
-    
-    const usuario = await User.findById(wallet);
+
+    const usuario = await User.findOne({wallet});
     if (!usuario) {
       return res.status(404).json({ error: "Usuario no encontrado." });
     }
+    
+    
 
     const nuevoNFTTemporal = {
-      usos: 50, 
-      usosFaltantes: 50, 
-      ganancia: {tipo: "token", cantidad: 100},
-      porcentajeExito: 90,
-      rareza: "legendary", 
+      rarity: rarity,
+      name:name,
+      score: 30,
+      state: "temporal",
+      progressBar: 1,
+      progressBarMax: 42,
+      eventTime: 0,
+      type:type
     };
 
     usuario.nftTemporales.push(nuevoNFTTemporal)
 
-    console.log(usuario)
-    await usuario.save(); 
+    await usuario.save();
 
     res.json({ message: "NFT temporal creado exitosamente." });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Error al crear el NFT temporal."});
+    res.status(500).json({ error: "Error al crear el NFT temporal." });
   }
 };
 
@@ -105,16 +113,22 @@ createNftTemporal = async (req, res) => {
   */
 login = async (req, res) => {
   try {
-    const { wallet } = req.params; // Obtiene la wallet del usuario de los parámetros de la URL.
+    const { wallet } = req.body; // Obtiene la wallet del usuario de los parámetros de la URL.
+    console.log(wallet,"wallet")
+    if (wallet.length !== 42) {
+      return res
+        .status(400)
+        .json({ error: "La wallet debe tener 42 caracteres." });
+    }
 
     // Busca al usuario en la base de datos por su wallet.
-    const usuario = await User.findById(wallet);
+    const usuario = await User.findOne({wallet});
 
     //si elusuari existe retornamos la tabla usuario
     if (usuario) {
       return res
         .status(200)
-        .json({ menssage: "Login Exitoso.", user: usuario });
+        .json({ usuario });
     } else {
       //al no encontrar al usuario, creamos automaticamente la cuenta
       createUser(req, res);

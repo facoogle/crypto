@@ -6,13 +6,19 @@ const userSchema = new Schema(
         wallet: String,
         cmsBalance: Number,
         cmcRetiro: Number,
+        token: Number,
+        gas: Number,
+        contract: Number,
         nftTemporales: [
             {
-                usos: Number, 
-                usosFaltantes: Number, 
-                ganancia: Object,
-                porcentajeExito: Number,
-                rareza: String, 
+                rarity: String, 
+                name:String,
+                score: Number,
+                state:String,
+                progressBar: Number,
+                progressBarMax: Number,
+                eventTime:Number,
+                type:String
             }
         ],
         nftPermanentes: [
