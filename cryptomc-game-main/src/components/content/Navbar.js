@@ -7,7 +7,7 @@ import logo from "../../images/Navbar.png";
 import pancake from "../../images/icons/pancakeswap.png"
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUser } from "../../redux/user/userActions";
-import { fetchInventoryData } from "../../redux/inventory/inventoryActions";
+
 import Swal from "sweetalert2"
 
 import { ethers } from "ethers";
@@ -67,14 +67,17 @@ import { ethers } from "ethers";
     const MountUnmount = (value) => {
       const dispatch = useDispatch();
       const user = useSelector(state => state.user);
-      const inventory = useSelector(state => state.inventory);
+      
       
       useEffect(()=>{
-        dispatch(fetchUser())
-        dispatch(fetchInventoryData())
-      },[value])
+        if(wallet){
+        dispatch(fetchUser(wallet))
+        console.log(wallet, "XD")
+        
+      }
+      },[wallet])
        //console.log(user);
-       //console.log("inventory",inventory);
+      
       let token = user.token;
       value = user.token;
       return (

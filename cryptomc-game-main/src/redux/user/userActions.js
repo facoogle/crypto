@@ -1,9 +1,7 @@
-//DATA
-    let DataUser = {
-        token: 0,
-        gas: 10,
-        contract: 10
-    }
+import axios from "axios"
+
+let apiUrl = "http://localhost:3001"
+let DataUser
 
 
 const fetchUserRequest = () => {
@@ -41,12 +39,13 @@ const fetchFailDelivery = (payload) => {
     }
 }
 
-export const fetchUser = () => {
+export const fetchUser = (wallet) => {
     return async (dispatch) => {
         dispatch(fetchUserRequest());
         try{
+        DataUser = await axios.post(`${apiUrl}/api/user/login`, {wallet: wallet})
         setTimeout(() => {
-            dispatch(fetchUserSuccess(DataUser));
+            dispatch(fetchUserSuccess(DataUser.usuario));
         }, 1000);
         }catch(err){
             dispatch(fetchUserError(err));
