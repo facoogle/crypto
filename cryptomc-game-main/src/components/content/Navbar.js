@@ -43,8 +43,11 @@ import { ethers } from "ethers";
   useEffect(() => {
     const interval = setInterval(() => {
       sendWallet().then((data) => {
-        console.log(data)
-        setWallet(data)
+        if(!wallet){
+
+          console.log(data)
+          setWallet(data)
+        }
       })
     }, 1000);
     return () => clearInterval(interval);

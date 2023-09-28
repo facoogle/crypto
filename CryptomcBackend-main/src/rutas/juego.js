@@ -1,5 +1,5 @@
 const { Router } = require("express");
-require("../controladores/clickToEarn");
+const { iniciarViaje } = require("../controladores/clickToEarn");
 const router = Router();
 
 router.post("/", iniciarViaje);

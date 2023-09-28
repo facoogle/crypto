@@ -24,3 +24,9 @@ comprarNft = (req, res) => {
 comprarInstrumento = (req, res) => {
     
 }
+
+module.exports = {
+    iniciarViaje,
+    comprarNft,
+    comprarInstrumento
+}
