@@ -8,18 +8,25 @@ import pancake from "../../images/icons/pancakeswap.png"
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUser } from "../../redux/user/userActions";
 import { fetchInventoryData } from "../../redux/inventory/inventoryActions";
+import Swal from "sweetalert2"
 
 import { ethers } from "ethers";
  function NavBar (props) {
-  const [wallet, setWallet] = useState('0x000')
+  const [wallet, setWallet] = useState(false)
   
-   const connectMeta = async () =>{
+  const connectMeta = async () => {
+    try {
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      await provider.send("eth_requestAccounts", []);
+      const address = await sendWallet();
+      console.log(address, "error");
+    } catch {
+      Swal.fire("No conectaste a metamask")
+      console.log("error");
+    }
 
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    await provider.send("eth_requestAccounts", []);
-    const address = await sendWallet()
-    setWallet()
-   /*  try {
+    /* address && setWallet() /
+    /  try {
       const signer = await provider.getSigner();
       const address = await signer.getAddress();
       setWallet(address)
@@ -89,7 +96,7 @@ import { ethers } from "ethers";
             className="mt-4"
           >
           </Button>
-          <img src={logo} alt="logo" className="logo-sidebar" />
+          <img style={{cursor:"pointer"}} src={logo} alt="logo" className="logo-sidebar" />
           <h3>CryptoMC</h3>
         </div>
         <Button variant="outline-info" onClick={props.toggle}>
@@ -101,7 +108,7 @@ import { ethers } from "ethers";
           <Nav className="ml-auto navbar-buttons" navbar>
             <a className="navbar-pancake" href="#" target="_blank"><img src={pancake} alt=""/>BUY $CMC</a>
             <MountUnmount/>
-            <img src={logo} onClick={() => connectMeta()} alt="logo" className="navbar-logo"/>
+            <img style={{cursor:"pointer"}} src={logo} onClick={() => connectMeta()} alt="logo" className="navbar-logo"/>
             <div className="navbar-account">
               0 &nbsp;  $CMC <br/>
               {wallet && <span className="navbar-bot-account">{`${wallet.substring(0,4)}..${wallet.substring(wallet.length-4, wallet.length)}`}</span> }
