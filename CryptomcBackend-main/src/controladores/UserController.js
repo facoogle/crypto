@@ -1,8 +1,8 @@
 const jwt = require("jsonwebtoken");
 const User = require("../modelos/user");
 const UserBanned = require("../modelos/userBanned");
-const { v1: uuidv1, v4: uuidV4 } = require("uuid");
-const mongoose = require("mongoose")
+const { v4: uuidV4, v4 } = require("uuid");
+const mongoose = require("mongoose");
 
 createUser = async (req, res) => {
   const { wallet } = req.body;
@@ -75,32 +75,34 @@ getNftUser = async (req, res) => {
 
 createNftTemporal = async (req, res) => {
   try {
-    const { wallet, type, rarity, name } = req.body //pide el id de la cuenta en vez de la wallet, ese id se consigue en la base de datos!
-    console.log(req.body)
+    const { wallet, type, rarity, name, score } = req.body; //pide el id de la cuenta en vez de la wallet, ese id se consigue en la base de datos!
 
-    const usuario = await User.findOne({wallet});
+    const usuario = await User.findOne({ wallet });
     if (!usuario) {
       return res.status(404).json({ error: "Usuario no encontrado." });
     }
-    
-    
+    if (type === "gas") {
+      usuario.gas += 1;
+    } else if (type === "contract") {
+      usuario.contract += 1;
+    } else {
+      const nuevoNFTTemporal = {
+        name: `${name}`,
+        type: `${type}`,
+        state: "temporal",
+        rarity: parseInt(rarity),
+        score: score,
+        progressBar: 1,
+        progressBarMax: 42,
+        eventTime: 0,
+      };
 
-    const nuevoNFTTemporal = {
-      rarity: rarity,
-      name:name,
-      score: 30,
-      state: "temporal",
-      progressBar: 1,
-      progressBarMax: 42,
-      eventTime: 0,
-      type:type
-    };
-
-    usuario.nftTemporales.push(nuevoNFTTemporal)
+      usuario.nftTemporales.push(nuevoNFTTemporal);
+    }
 
     await usuario.save();
 
-    res.json({ message: "NFT temporal creado exitosamente." });
+    res.json({ message: usuario });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Error al crear el NFT temporal." });
@@ -114,7 +116,7 @@ createNftTemporal = async (req, res) => {
 login = async (req, res) => {
   try {
     const { wallet } = req.body; // Obtiene la wallet del usuario de los parámetros de la URL.
-    console.log(wallet,"wallet")
+    console.log(wallet, "wallet");
     if (wallet.length !== 42) {
       return res
         .status(400)
@@ -122,20 +124,17 @@ login = async (req, res) => {
     }
 
     // Busca al usuario en la base de datos por su wallet.
-    const usuario = await User.findOne({wallet});
+    const usuario = await User.findOne({ wallet });
 
     //si elusuari existe retornamos la tabla usuario
     if (usuario) {
-      return res
-        .status(200)
-        .json({ usuario });
+      return res.status(200).json({ usuario });
     } else {
       //al no encontrar al usuario, creamos automaticamente la cuenta
       createUser(req, res);
     }
 
     // Obtiene la lista de NFT temporales del usuario.    const nftTemporales = usuario?.nftTemporales;
-
   } catch (error) {
     console.error(error);
     res

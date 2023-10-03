@@ -1,22 +1,25 @@
 
 import React, { useEffect } from 'react'
-import MotoA from '../../images/tools/MotoA.png'
-import MotoB from '../../images/tools/MotoB.png'
-import MotoC from '../../images/tools/MotoC.png'
+import Basic from '../../images/tools/MotoA.png'
+import Advance from '../../images/tools/MotoB.png'
+import Pro from '../../images/tools/MotoC.png'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchInventoryData } from '../../redux/inventory/inventoryActions'
 import Timer from './Timer'
 
 
 export default function SelectByke(props) {
-    const dispatch = useDispatch();
+    /* 
     console.log(props.showBykes)
-    const bykes = useSelector(state => state.inventory.bykes)
 
     useEffect(()=>{
         dispatch(fetchInventoryData())
-    }, [dispatch])
+    }, [dispatch]) */
+    const dispatch = useDispatch();
+    const { userData } = useSelector(state => state.userState)
+    const  bykes = userData.nftTemporales.filter(element => element.type === "byke")
+    
+    console.log("Desde select", bykes)
   return (
   
     <AnimatePresence>
@@ -31,11 +34,11 @@ export default function SelectByke(props) {
         <div className='closeButton' onClick={()=>props.close()}>X</div>
         <h2>Bike Inventory</h2>
         <div className='inventory-select'>
-        {bykes.map((bike, index)=>(
+         {bykes.map((bike, index)=>(
             <div className='invetory-item' key={index}>
                 <div className='item-header'>
                     <div className='stars'>
-                        <p>level: {bike.level}</p>
+                        <p>level: {bike.rarity}</p>
                     </div>
                     <div className='progress-box'>
                 <div className='inventory-item-progressBar'>
@@ -43,15 +46,15 @@ export default function SelectByke(props) {
                 </div>
                 </div>
                 
-                <div className='id'><p>ID:{bike.id}</p></div>
+                <div className='id'><p>ID:{bike._id.substring(0,10)}</p></div>
                 </div>
                 <div className='item-body'>
                     <div className='item-img'>
                         <img src={{
-                            1: MotoA,
-                            2: MotoB,
-                            3: MotoC
-                        }[bike.level]} alt=''/>
+                            1: Basic,
+                            2: Advance,
+                            3: Pro
+                        }[bike.rarity]} alt=''/>
                     </div>
                 </div>
                 <div className='item-footer'>
@@ -63,7 +66,7 @@ export default function SelectByke(props) {
                     />
                 </div>
             </div>
-        ))}
+        ))} 
         </div>
     </motion.div>
         )}

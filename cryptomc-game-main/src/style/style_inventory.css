@@ -86,12 +86,12 @@
   }
 
   .inventory-item-info-id{
-    width: 90px;
+    width: auto;
     font-size: 9px;
     border: 1px solid white;
     font-weight: 600;
     border-radius: 20px;
-    padding: 5px 13px;
+    padding: 5px;
     margin: 5px;
     margin-left: 5px;
     text-align: center;
