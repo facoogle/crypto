@@ -1,15 +1,14 @@
 import { useSelector } from "react-redux";
 import { motion, AnimatePresence } from "framer-motion";
 import "../../style/style_loading.css";
-import loading from "../../images/svg/spinning-circles.svg";
+import loading2 from "../../images/svg/spinning-circles.svg";
 
 export default function Loading() {
-  const { userData } = useSelector((state) => state.userState);
-  console.log("Buenaa", userData);
-
+  const { loading } = useSelector((state) => state.userState);
+  console.log("desde loading", loading)
   return (
     <AnimatePresence>
-      {userData.nftTemporales.loading && (
+      {loading && (
         <motion.div
           className="black-background"
           initial={{ opacity: 0 }}
@@ -18,7 +17,7 @@ export default function Loading() {
         >
           <div className="loading-container">
             <div className="loading-text">
-              <img src={loading} alt="loading" />
+              <img src={loading2} alt="loading" />
               <h3>Loading...</h3>
             </div>
           </div>

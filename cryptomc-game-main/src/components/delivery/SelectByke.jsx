@@ -9,6 +9,7 @@ import Timer from './Timer'
 
 
 export default function SelectByke(props) {
+    
     /* 
     console.log(props.showBykes)
 
@@ -16,14 +17,14 @@ export default function SelectByke(props) {
         dispatch(fetchInventoryData())
     }, [dispatch]) */
     const dispatch = useDispatch();
-    const { userData } = useSelector(state => state.userState)
-    const  bykes = userData.nftTemporales.filter(element => element.type === "byke")
+    const { userData, showByke } = useSelector(state => state.userState)
+    const  bykes = userData?.nftTemporales ? userData?.nftTemporales.filter(element => element.type === "byke") : []
     
-    console.log("Desde select", bykes)
+    console.log("Desde select", showByke)
   return (
   
     <AnimatePresence>
-        {props.showBykes &&(
+        {showByke &&(
     <motion.div 
     className='invetoryOpen'
     initial={{ scale: 0 }}

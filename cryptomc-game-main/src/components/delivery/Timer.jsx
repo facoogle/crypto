@@ -1,10 +1,13 @@
 import moment from 'moment';
 import { useCallback, useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { BYKE_SELECT, SHOW_BYKE } from '../../redux/constanst';
 
 
 
 export default function Timer({ eventTime, interval, byke, burger, selectByke, close, selectBurger }) {
 
+    const dispatch = useDispatch();
 
     const [timeLeft, setTimeLeft] = useState('00:00:00');
     const [difTime, setDifTime] = useState(0);
@@ -36,18 +39,18 @@ export default function Timer({ eventTime, interval, byke, burger, selectByke, c
         return () => clearInterval(t);
 
     }, [eventTime, interval, timerCallback]);
-
     return (
         <>
-            {difTime > 0 ?
+            {/* {difTime > 0 ? */}
                 <button onClick={byke === undefined ?
                     () => closeBurgers(burger) :
-                    () => selectByke(byke)}
+                    () => {dispatch({type: BYKE_SELECT, bykeSelect: byke})
+                    dispatch({type: SHOW_BYKE, showByke: false})}}
                     className='btn-select'>Select</button>
-                :
+              {/*   :
                 <button className='btn-select block-button'>{timeLeft}</button>
 
-            }
+            } */}
         </>
     )
 }

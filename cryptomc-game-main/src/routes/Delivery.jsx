@@ -6,42 +6,47 @@ import SelectByke from '../components/delivery/SelectByke';
 import StartBox from '../components/delivery/StartBox';
 import Loading from '../components/loading/Loading';
 import "../style/style_delivery.css";
+import { useDispatch, useSelector } from 'react-redux';
+import { BYKE_SELECT, SHOW_BYKE } from './../redux/constanst/index';
 
 
 export default function Delivery() {
+  const { showByke , bykeSelect } = useSelector(state => state.userState)
+  const dispatch = useDispatch()
   const [choiceEmpty, setChoiceEmpty] = useState(true);
-  const [showBykes, setShowBykes] = useState(false);
-  const [selectedByke, setSelectedByke] = useState(null);
 
   const openInventoryBykes = () => {
+    console.log("Si se activo la funcion")
     setChoiceEmpty(false);
-    setShowBykes(true);
+    dispatch({ type: SHOW_BYKE, showByke: true });
   }
 
   const closeInventoryBykes = () => {
-    if(selectedByke === null){
+    if(bykeSelect === null){
     setChoiceEmpty(true);
     }
-    setShowBykes(false);
+    dispatch({type: SHOW_BYKE, showByke: false});
   }
 
   const selectedBykeHandler = (bike) => {
-    setSelectedByke(bike);
+    
+    dispatch({type: BYKE_SELECT, bykeSelect: bike});
     setChoiceEmpty(false);
-    setShowBykes(false);
+    dispatch({type: SHOW_BYKE, showByke: false});
   }
 
   useEffect(()=>{
-    if(selectedByke === null){
+    if(bykeSelect === null){
       setChoiceEmpty(true);
     }else{
-      console.log(selectedByke)
+      console.log("Esto es" , bykeSelect)
     }
     
-  },[selectedByke])
+  },[bykeSelect])
 
   const resetDelivery = () => {
-    setSelectedByke(null);
+    
+    dispatch({type: BYKE_SELECT, bykeSelect: null});
     setChoiceEmpty(true);
   }
 
@@ -50,8 +55,8 @@ export default function Delivery() {
     <section className='content-side-delivery'>
       <Loading/>
       <StartBox choiceEmpty={choiceEmpty} openBykes={openInventoryBykes}/>
-      <SelectByke selectByke={selectedBykeHandler} showBykes={showBykes}  close={closeInventoryBykes}/>
-      <BykeforRun byke={selectedByke} resetDelivery={resetDelivery} showBykes={setShowBykes}/>
+      <SelectByke selectByke={selectedBykeHandler} showByke={showByke}  close={closeInventoryBykes}/>
+      <BykeforRun resetDelivery={resetDelivery} />
     </section>
   )
 }

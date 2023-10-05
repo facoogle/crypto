@@ -46,7 +46,10 @@ export default function Inventory() {
             <div className='inventory-item-info'>
               <div className='inventory-item-header'>
                 <div className='inventory-item-info-rarity'>
-                  {item.rarity}
+                  {item.rarity === 1 && 'Common'}
+                  {item.rarity === 2 && 'Uncommon'}
+                  {item.rarity === 3 && 'Rare'}
+                  {item.rarity === 4 && 'Legendary'}
                 </div>
                 <div className='inventory-item-info-id'>
                   {item._id}

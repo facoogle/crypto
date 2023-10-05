@@ -109,7 +109,7 @@ function NavBar(props) {
     let token = 0;
     return (
       <button className="navbar-claim" href="#">
-        CLAIM {token.toFixed(2)} $CMC
+        CLAIM {userData ? userData?.token.toFixed(2): 0} $CMC
       </button>
     );
   };

@@ -10,11 +10,18 @@ import redbox from "../../images/redbox.png";
 import classNames from "classnames";
 import { NavLink } from "react-router-dom";
 import moto from "../../images/home/moto.png";
+import { useDispatch } from "react-redux";
+import { BYKE_SELECT, SHOW_BYKE } from "../../redux/constanst";
 
-class SideBar extends React.Component {
-  render() {
+export default function SideBar(props) {
+  const dispatch = useDispatch()
+
+  const resetear = () => {
+    dispatch({type: SHOW_BYKE, showByle: false})
+    dispatch({type: BYKE_SELECT, bykeSelect: false})
+  }
     return (
-      <div className={classNames("sidebar", { "is-open": this.props.isOpen })}>
+      <div className={classNames("sidebar", { "is-open": props.isOpen })}>
 
         <Nav className="sidebar-nav">
           <div className="sidebar-second-header">
@@ -33,7 +40,7 @@ class SideBar extends React.Component {
             <img src={redbox} alt="redbox" className="redbox" />
           </div>
 
-          <NavLink className="NavItem" to="/inventory">
+          <NavLink className="NavItem" to="/inventory" onClick={() => resetear()}>
             <img className="sidebar-icon" src={Hamburguesa} alt="hamburguesa" />
             INVENTORY
           </NavLink>
@@ -71,6 +78,5 @@ class SideBar extends React.Component {
       </div>
     );
   }
-}
 
-export default SideBar;
+

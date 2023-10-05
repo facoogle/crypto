@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import Common from "../../images/inventory/Common.png";
 import Rare from "../../images/inventory/Rare.png";
 import Uncommon from "../../images/inventory/Uncommon.png";
@@ -16,10 +16,9 @@ export default function SelectBurger(props) {
   const legendary =
     "linear-gradient(90deg, rgba(208,178,32,1) 0%, rgba(74,72,3,1) 86%)";
 
-  const dispatch = useDispatch();
   const { userData } = useSelector((state) => state.userState);
 
-  const burgers = userData.nftTemporales.filter((element) => element.type === "burger");
+  const burgers = userData?.nftTemporales ? userData?.nftTemporales.filter((element) => element.type === "burger"): [];
 
   const [remainBurgers, setRemainBurgers] = useState([]);
 
@@ -41,10 +40,10 @@ export default function SelectBurger(props) {
     };
   }, [burgers, props.burgerBag, props.showBurger]); 
 
-  const close = (burger) => {
+  /* const close = (burger) => {
     props.selectBurger(burger);
     props.close();
-  };
+  }; */
 
   //console.log("remainBurgers", remainBurgers)
 

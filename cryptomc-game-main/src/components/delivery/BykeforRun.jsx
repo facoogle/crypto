@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import MotoA from "../../images/tools/MotoA.png";
-import MotoB from "../../images/tools/MotoB.png";
-import MotoC from "../../images/tools/MotoC.png";
+import Moto1 from "../../images/tools/MotoA.png";
+import Moto2 from "../../images/tools/MotoB.png";
+import Moto3 from "../../images/tools/MotoC.png";
 import plus from "../../images/svg/pluschoice.svg";
 import { motion, AnimatePresence } from "framer-motion";
 import SelectBurger from "./SelectBurger";
@@ -17,11 +17,13 @@ import unchecked from "../../images/delivery/checks/unchecked.png";
 import { useDispatch, useSelector } from "react-redux";
 import FinalScreen from "./FinalScreen";
 import Alerts from "../alerts/Alerts";
+import axios from "axios";
+import { actualizarUser } from "../shop/ShopBurgers";
 
 export default function BykeforRun(props) {
   const dispatch = useDispatch();
-  const { userData } = useSelector((state) => state.userState);
-  const [backgroundByke, setBackgroundByke] = useState(null);
+  const { userData, bykeSelect, showByke } = useSelector((state) => state.userState);
+  
   const [burgerBag, setBurgerBag] = useState([]);
   const [currentSpace, setCurrentSpace] = useState([]);
   const [spaceDisponible, setSpaceDisponible] = useState([]);
@@ -41,28 +43,9 @@ export default function BykeforRun(props) {
   const [alertKey, setAlertKey] = useState("no alert");
 
   const customSpace = 3;
-  console.log(props.byke);
-  useEffect(() => {
-    if (props.byke === null) {
-      setBackgroundByke(null);
-    } else {
-      if (props.byke.rarity === 1) {
-        setBackgroundByke(MotoA);
-      }
-      if (props.byke.rarity === 2) {
-        setBackgroundByke(MotoB);
-      }
-      if (props.byke.rarity === 3) {
-        setBackgroundByke(MotoC);
-      }
-      return () => {
-        setBackgroundByke(null);
-      };
-    }
-  }, [props.byke]);
 
   useEffect(() => {
-    if (props.byke !== null) {
+    if (bykeSelect !== null) {
       emptySpace();
       disponibleSpace();
       successCalculate();
@@ -76,11 +59,12 @@ export default function BykeforRun(props) {
         setFarRewardcalc(0);
       };
     }
-  }, [props.byke, burgerBag]);
+
+  }, [bykeSelect, burgerBag, showByke]);
 
   const emptySpace = () => {
     let spaceCounter = [];
-    const counter = customSpace - props.byke.rarity;
+    const counter = customSpace - bykeSelect.rarity;
     for (let i = 0; i < counter; i++) {
       spaceCounter.push([{ space: i }]);
     }
@@ -90,7 +74,7 @@ export default function BykeforRun(props) {
   const disponibleSpace = () => {
     let spaceCounter = [];
     let burger = burgerBag.length;
-    const counter = props.byke.rarity - burger;
+    const counter = bykeSelect.rarity - burger;
     for (let i = 0; i < counter; i++) {
       spaceCounter.push([{ space: i }]);
     }
@@ -179,7 +163,7 @@ export default function BykeforRun(props) {
     }
   };
 
-  const startDelivery = () => {
+  const startDelivery = async () => {
     let progressLess;
     let reward;
     const result = Math.floor(Math.random() * 101);
@@ -191,6 +175,8 @@ export default function BykeforRun(props) {
         setRateImg(check);
         setNumberResult(result);
         setFinalRate(nearSuccessRating);
+        await axios.post('http://localhost:3001/api/user/add',{coin: nearRewardcalc, wallet: userData.wallet})
+        actualizarUser(userData, dispatch)
         reward = nearRewardcalc;
       } else {
         setSuccessResult("Sorry, orders not delivered on time");
@@ -206,6 +192,10 @@ export default function BykeforRun(props) {
         setRateImg(check);
         setNumberResult(result);
         setFinalRate(farSuccessRating);
+        
+        await axios.post('http://localhost:3001/api/user/add',{coin: farRewardcalc, wallet: userData.wallet})
+
+        actualizarUser(userData, dispatch)
         reward = farRewardcalc;
       } else {
         setSuccessResult("Sorry, orders not delivered on time");
@@ -233,7 +223,7 @@ export default function BykeforRun(props) {
       setShowAlert(true);
       return;
     }
-    if (props.byke.progressBar < progressLess) {
+    /* if (bykeSelect.progressBar < progressLess) {
       setAlertKey({
         key: "noMoto",
         header: "broken motorcycle",
@@ -241,7 +231,7 @@ export default function BykeforRun(props) {
       });
       setShowAlert(true);
       return;
-    }
+    } */
     for (let i = 0; i < burgerBag.length; i++) {
       if (burgerBag[i].progressBar < progressLess) {
         setAlertKey({
@@ -289,7 +279,7 @@ export default function BykeforRun(props) {
       />
 
       <AnimatePresence>
-        {props.byke && (
+        {bykeSelect && (
           <motion.div
             transition={{ duration: 0.2 }}
             className="byke-menu"
@@ -333,7 +323,17 @@ export default function BykeforRun(props) {
                 ))}
               </div>
 
-              <img id="bgdByke" src={backgroundByke} alt={backgroundByke} />
+              <img id="bgdByke" src={
+                        {
+                          1: Moto1,
+                          2: Moto2,
+                          3: Moto3,
+                        }[bykeSelect.rarity]
+                      } alt={{
+                        1: Moto1,
+                        2: Moto2,
+                        3: Moto3,
+                      }[bykeSelect.rarity]} />
 
               <div className="choose-burger">
                 <div className="imgbox2">

@@ -4,6 +4,7 @@ import "./App.css";
 import SideBar from "./components/sidebar/SideBar";
 import Content from "./components/content/Content";
 import NavBar from "./components/content/Navbar";
+import Loading from "./components/loading/Loading";
 
 
 class Layout extends React.Component {
@@ -52,6 +53,7 @@ class Layout extends React.Component {
   render() {
     return (
       <div>
+        <Loading />
         <div className="App wrapper row">
           <NavBar toggle={this.toggle} isOpen={this.state.isOpen} />
           <div
