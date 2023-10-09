@@ -4,6 +4,7 @@ const {
   getNftUser,
   createNftTemporal,
   add,
+  deliveryStar,
   login,
 } = require("../controladores/UserController");
 const router = Router();
@@ -19,5 +20,7 @@ router.get("/:wallet/nfttemporales", getNftUser);
 router.post("/createNftTemporal", createNftTemporal);
 
 router.post("/add", add);
+
+router.post("/deliveryStar", deliveryStar);
 
 module.exports = router;

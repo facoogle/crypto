@@ -164,47 +164,10 @@ export default function BykeforRun(props) {
   };
 
   const startDelivery = async () => {
-    let progressLess;
+    const progressLess = farOrNear === "near" ? 1 : 2 ;
     let reward;
     const result = Math.floor(Math.random() * 101);
 
-    if (farOrNear === "near") {
-      progressLess = 1;
-      if (result <= nearSuccessRating) {
-        setSuccessResult("Congratulations! orders delivered on time");
-        setRateImg(check);
-        setNumberResult(result);
-        setFinalRate(nearSuccessRating);
-        await axios.post('http://localhost:3001/api/user/add',{coin: nearRewardcalc, wallet: userData.wallet})
-        actualizarUser(userData, dispatch)
-        reward = nearRewardcalc;
-      } else {
-        setSuccessResult("Sorry, orders not delivered on time");
-        setRateImg(unchecked);
-        setNumberResult(result);
-        setFinalRate(nearSuccessRating);
-        reward = 0;
-      }
-    } else {
-      progressLess = 2;
-      if (result <= farSuccessRating) {
-        setSuccessResult("Congratulations! orders delivered on time");
-        setRateImg(check);
-        setNumberResult(result);
-        setFinalRate(farSuccessRating);
-        
-        await axios.post('http://localhost:3001/api/user/add',{coin: farRewardcalc, wallet: userData.wallet})
-
-        actualizarUser(userData, dispatch)
-        reward = farRewardcalc;
-      } else {
-        setSuccessResult("Sorry, orders not delivered on time");
-        setRateImg(unchecked);
-        setNumberResult(result);
-        setFinalRate(farSuccessRating);
-        reward = 0;
-      }
-    }
     if (userData.gas < progressLess) {
       setAlertKey({
         key: "noGas",
@@ -243,6 +206,44 @@ export default function BykeforRun(props) {
         return;
       }
     }
+    await axios.post('http://localhost:3001/api/user/deliveryStar',{wallet: userData.wallet, progressLess: progressLess, burgerBag: burgerBag, bykeSelect: bykeSelect  })
+    
+    if (farOrNear === "near") {
+      if (result <= nearSuccessRating) {
+        setSuccessResult("Congratulations! orders delivered on time");
+        setRateImg(check);
+        setNumberResult(result);
+        setFinalRate(nearSuccessRating);
+        await axios.post('http://localhost:3001/api/user/add',{coin: nearRewardcalc, wallet: userData.wallet})
+        actualizarUser(userData, dispatch)
+        reward = nearRewardcalc;
+      } else {
+        setSuccessResult("Sorry, orders not delivered on time");
+        setRateImg(unchecked);
+        setNumberResult(result);
+        setFinalRate(nearSuccessRating);
+        reward = 0;
+      }
+    } else {
+      if (result <= farSuccessRating) {
+        setSuccessResult("Congratulations! orders delivered on time");
+        setRateImg(check);
+        setNumberResult(result);
+        setFinalRate(farSuccessRating);
+        
+        await axios.post('http://localhost:3001/api/user/add',{coin: farRewardcalc, wallet: userData.wallet})
+
+        actualizarUser(userData, dispatch)
+        reward = farRewardcalc;
+      } else {
+        setSuccessResult("Sorry, orders not delivered on time");
+        setRateImg(unchecked);
+        setNumberResult(result);
+        setFinalRate(farSuccessRating);
+        reward = 0;
+      }
+    }
+    
     setRewardResult(reward);
     setShowFinalScreen(true);
   };
