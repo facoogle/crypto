@@ -94,7 +94,7 @@ export default function SelectBurger(props) {
                   </div>
 
                   <div className="id">
-                    <p>ID:{burger.id}</p>
+                    <p>ID:{burger._id}</p>
                   </div>
                   <div className="stars">
                     <p>{burger.name} </p>
@@ -120,7 +120,7 @@ export default function SelectBurger(props) {
                     selectBurger={props.selectBurger}
                     close={props.close}
                     eventTime={burger.eventTime}
-                    interval={1000}
+                    interval={0}
                     burger={burger}
                   />
                 </div>

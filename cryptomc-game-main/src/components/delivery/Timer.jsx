@@ -19,7 +19,7 @@ export default function Timer({ eventTime, interval, byke, burger, selectByke, c
     }
 
     const calculateTimeLeft = () => {
-        let diff_time = moment.duration(moment(now_timestamp).diff(moment(eventTime)));
+        let diff_time = moment.duration(moment(now_timestamp).diff(moment(eventTime + 120000)));
         setDifTime(diff_time);
         let diff_hours = diff_time.hours().toString().replace('-', '') > 9 ? diff_time.hours().toString().replace('-', '') : `0${diff_time.hours().toString().replace('-', '')}`;
         let diff_minutes = diff_time.minutes().toString().replace('-', '') > 9 ? diff_time.minutes().toString().replace('-', '') : `0${diff_time.minutes().toString().replace('-', '')}`;
@@ -41,16 +41,16 @@ export default function Timer({ eventTime, interval, byke, burger, selectByke, c
     }, [eventTime, interval, timerCallback]);
     return (
         <>
-            {/* {difTime > 0 ? */}
+            {difTime > 0 ?
                 <button onClick={byke === undefined ?
                     () => closeBurgers(burger) :
                     () => {dispatch({type: BYKE_SELECT, bykeSelect: byke})
                     dispatch({type: SHOW_BYKE, showByke: false})}}
                     className='btn-select'>Select</button>
-              {/*   :
+               :
                 <button className='btn-select block-button'>{timeLeft}</button>
 
-            } */}
+            } 
         </>
     )
 }

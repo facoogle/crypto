@@ -11,9 +11,9 @@ import { useSelector } from "react-redux";
 
 export default function Tools() {
   const { userData} = useSelector((state) => state.userState )
-  const bykeA = userData.nftTemporales.filter(element => element.type === "byke" && element.rarity === 1).length
-  const bykeB = userData.nftTemporales.filter(element => element.type === "byke" && element.rarity === 2).length
-  const bykeC = userData.nftTemporales.filter(element => element.type === "byke" && element.rarity === 3).length
+  const bykeA = userData?.nftTemporales?.filter(element => element.type === "byke" && element.rarity === 1).length
+  const bykeB = userData?.nftTemporales?.filter(element => element.type === "byke" && element.rarity === 2).length
+  const bykeC = userData?.nftTemporales?.filter(element => element.type === "byke" && element.rarity === 3).length
   const notification = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente, delectus placeat in repudiandae fugiat.";
   return (
     <div>
@@ -36,7 +36,7 @@ export default function Tools() {
         <div className='sub-item'>
         <h2>McScooter</h2>
           <h2>Advance</h2>
-          <h4>1 burger max</h4>
+          <h4>2 burger max</h4>
           <img src={motoB} alt="motoB" />
         </div>
         </div>
@@ -46,7 +46,7 @@ export default function Tools() {
         <div className='sub-item'>
         <h2>McScooter</h2>
           <h2>Pro</h2>
-          <h4>1 burger max</h4>
+          <h4>3 burger max</h4>
           <img src={motoC} alt="motoC" />
         </div>
         </div>

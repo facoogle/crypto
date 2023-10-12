@@ -30,6 +30,7 @@ export default function Delivery() {
 
   const selectedBykeHandler = (bike) => {
     
+    
     dispatch({type: BYKE_SELECT, bykeSelect: bike});
     setChoiceEmpty(false);
     dispatch({type: SHOW_BYKE, showByke: false});
@@ -44,10 +45,17 @@ export default function Delivery() {
     
   },[bykeSelect])
 
+  useEffect(()=>{
+    
+    resetDelivery()
+    
+  },[dispatch])
+
   const resetDelivery = () => {
     
     dispatch({type: BYKE_SELECT, bykeSelect: null});
     setChoiceEmpty(true);
+    
   }
 
   
@@ -55,7 +63,7 @@ export default function Delivery() {
     <section className='content-side-delivery'>
       <Loading/>
       <StartBox choiceEmpty={choiceEmpty} openBykes={openInventoryBykes}/>
-      <SelectByke selectByke={selectedBykeHandler} showByke={showByke}  close={closeInventoryBykes}/>
+      <SelectByke selectByke={selectedBykeHandler} showByke={showByke}  close={closeInventoryBykes} />
       <BykeforRun resetDelivery={resetDelivery} />
     </section>
   )

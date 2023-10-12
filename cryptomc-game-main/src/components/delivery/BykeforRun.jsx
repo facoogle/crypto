@@ -206,7 +206,22 @@ export default function BykeforRun(props) {
         return;
       }
     }
-    await axios.post('http://localhost:3001/api/user/deliveryStar',{wallet: userData.wallet, progressLess: progressLess, burgerBag: burgerBag, bykeSelect: bykeSelect  })
+    try {
+      const response = await axios.post('http://localhost:3001/api/user/deliveryStar', {
+        wallet: userData.wallet,
+        progressLess: progressLess,
+        burgerBag: burgerBag,
+        bykeSelect: bykeSelect,
+        farOrNear: farOrNear
+      });
+      
+      
+      console.log('Respuesta exitosa:', response.data);
+    } catch (error) {
+    
+      console.error('Error:', error);
+      alert('Se produjo un error al realizar la solicitud a la API.');
+    }
     
     if (farOrNear === "near") {
       if (result <= nearSuccessRating) {
@@ -223,6 +238,8 @@ export default function BykeforRun(props) {
         setNumberResult(result);
         setFinalRate(nearSuccessRating);
         reward = 0;
+        actualizarUser(userData, dispatch)
+        props.resetDelivery();
       }
     } else {
       if (result <= farSuccessRating) {
@@ -241,11 +258,15 @@ export default function BykeforRun(props) {
         setNumberResult(result);
         setFinalRate(farSuccessRating);
         reward = 0;
+        actualizarUser(userData, dispatch)
+        props.resetDelivery();
       }
     }
     
     setRewardResult(reward);
     setShowFinalScreen(true);
+
+    props.resetDelivery();
   };
 
   const closeDelivery = () => {

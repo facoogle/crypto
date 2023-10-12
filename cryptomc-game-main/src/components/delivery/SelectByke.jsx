@@ -10,14 +10,16 @@ import Timer from './Timer'
 
 export default function SelectByke(props) {
     
-    /* 
+    const dispatch = useDispatch()
+
     console.log(props.showBykes)
 
-    useEffect(()=>{
-        dispatch(fetchInventoryData())
-    }, [dispatch]) */
-    const dispatch = useDispatch();
+    
+
+   
     const { userData, showByke } = useSelector(state => state.userState)
+
+
     const  bykes = userData?.nftTemporales ? userData?.nftTemporales.filter(element => element.type === "byke") : []
     
     console.log("Desde select", showByke)

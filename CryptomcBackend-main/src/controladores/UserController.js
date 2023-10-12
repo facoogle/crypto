@@ -16,7 +16,7 @@ createUser = async (req, res) => {
       wallet: wallet,
       cmsBalance: 0,
       cmsRetiro: 0,
-      token: 0,
+      token: 500,
       gas: 0,
       contract: 0,
       nftTemporales: [],
@@ -74,7 +74,7 @@ getNftUser = async (req, res) => {
 
 createNftTemporal = async (req, res) => {
   try {
-    const { wallet, type, rarity, name, score, progressBarMAx, price } =
+    const { wallet, type, state,rarity, name, score, progressBarMAx, price } =
       req.body; //pide el id de la cuenta en vez de la wallet, ese id se consigue en la base de datos!
 
     const usuario = await User.findOne({ wallet });
@@ -91,9 +91,9 @@ createNftTemporal = async (req, res) => {
         type: `${type}`,
         state: "temporal",
         rarity: parseInt(rarity),
-        score: 42,
-        progressBar: 42,
-        progressBarMax: 42,
+        score: 25,
+        progressBar: 0,
+        progressBarMax: 5,
         eventTime: 0,
       };
 
@@ -102,7 +102,7 @@ createNftTemporal = async (req, res) => {
       const nuevoNFTTemporal = {
         name: `${name}`,
         type: `${type}`,
-        state: "temporal",
+        state: `${state}`,
         rarity: parseInt(rarity),
         score: score,
         progressBar: 1,
@@ -112,11 +112,12 @@ createNftTemporal = async (req, res) => {
 
       usuario.nftTemporales.push(nuevoNFTTemporal);
     }
-    if (usuario.token - price < 0) {
+    
+    if (usuario.token - parseInt(price) < 0) {
       return res.status(500).json({ error: "token insuficientes." });
     }
 
-    usuario.token -= price;
+    usuario.token -= parseFloat(price);
     await usuario.save();
 
     res.json({ message: usuario });
@@ -135,7 +136,7 @@ add = async (req, res) => {
       return res.status(404).json({ error: "Usuario no encontrado." });
     }
 
-    usuario.token += coin;
+    usuario.token += parseFloat(coin);
     await usuario.save();
 
     res.json({ message: usuario });
@@ -147,8 +148,9 @@ add = async (req, res) => {
 
 deliveryStar = async (req, res) => {
   try {
-    const { wallet, burgerBag, progressLess, bykeSelect } = req.body; //pide el id de la cuenta en vez de la wallet, ese id se consigue en la base de datos!
-
+    const { wallet, burgerBag, progressLess, bykeSelect, farOrNear } = req.body; //pide el id de la cuenta en vez de la wallet, ese id se consigue en la base de datos!
+    const now_utc_date = new Date().toUTCString();
+    const now_timestamp = new Date(now_utc_date).getTime();
     const usuario = await User.findOne({ wallet });
     if (!usuario) {
       return res.status(404).json({ error: "Usuario no encontrado." });
@@ -158,24 +160,56 @@ deliveryStar = async (req, res) => {
      const byke =   usuario.nftTemporales.filter((element) => element.type === "byke" )
      const burger = usuario.nftTemporales.filter((element) => element.type === "burger") 
     console.log(burger[0]._id)
+
     byke.map((data) => {
-      if(data._id.toString()  === bykeSelect._id){
-        data.progressBar += progressLess
+      if (data._id.toString() === bykeSelect._id) {
+        data.progressBar += progressLess;
+        data.eventTime = now_timestamp
+    
+        if (data.progressBar >= data.progressBarMax) {
+          const indexToRemove = byke.indexOf(data);
+          if (indexToRemove !== -1) {
+            byke.splice(indexToRemove, 1);
+          }
+        }
       }
       return data;
     })
 
+
     burger.map((data) => {
-      if(data._id.toString() === burgerBag[0]?._id || data._id.toString() === burgerBag[1]?._id || data._id.toString() === burgerBag[2]?._id ){
-        data.progressBar += progressLess
-        
       console.log(data)
+      if (data._id.toString() === burgerBag[0]?._id || data._id.toString() === burgerBag[1]?._id || data._id.toString() === burgerBag[2]?._id ) {
+        
+        data.eventTime = now_timestamp
+        if (data.progressBar >= data.progressBarMax && data.state === 'temporal') {
+          data.progressBar += progressLess;
+          const indexToRemove = burger.indexOf(data);
+          if (indexToRemove !== -1) {
+            burger.splice(indexToRemove, 1);
+          }
+        }
       }
       return data;
-    }) 
+    })
+    
     const nftNew = burger.concat(byke)
     usuario.nftTemporales = nftNew  
+
+    const userGasCost = farOrNear === "near" ? 1 : 2;
+    const userContractCost = farOrNear === "near" ? 1 : 2;
+
+    if (usuario.gas >= userGasCost && usuario.contract >= userContractCost) {
+      usuario.gas -= userGasCost;
+      usuario.contract -= userContractCost;
+    } else {
+      return res.status(400).json({ error: "No tienes suficiente gas o contrato para esta acción." });
+    }
+
     await usuario.save();
+
+
+    
 
     res.json({ nft: burger });
   } catch (error) {
@@ -184,10 +218,7 @@ deliveryStar = async (req, res) => {
   }
 };
 
-/*
-  funcion para logeo y creacion de cuentas
-  la peticion se hace inmediatamente se conecta a metamask.
-  */
+
 login = async (req, res) => {
   try {
     const { wallet } = req.body; // Obtiene la wallet del usuario de los parámetros de la URL.
@@ -197,18 +228,18 @@ login = async (req, res) => {
         .json({ error: "La wallet debe tener 42 caracteres." });
     }
 
-    // Busca al usuario en la base de datos por su wallet.
+    
     const usuario = await User.findOne({ wallet });
 
-    //si elusuari existe retornamos la tabla usuario
+   
     if (usuario) {
       return res.status(200).json({ usuario });
     } else {
-      //al no encontrar al usuario, creamos automaticamente la cuenta
+      
       createUser(req, res);
     }
 
-    // Obtiene la lista de NFT temporales del usuario.    const nftTemporales = usuario?.nftTemporales;
+    
   } catch (error) {
     console.error(error);
     res

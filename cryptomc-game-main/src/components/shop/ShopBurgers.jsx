@@ -17,6 +17,7 @@ const items = [
     price: 50,
     image: common,
     rarity: 1,
+    state:"temporal"
   },
   {
     name: "Triple Cheese Burger",
@@ -26,6 +27,7 @@ const items = [
     price: 60,
     image: uncommon,
     rarity: 2,
+    state:"temporal"
   },
   {
     name: "Mega McBurger",
@@ -35,6 +37,7 @@ const items = [
     price: 70,
     image: rare,
     rarity: 3,
+    state:"permanent"
   },
   {
     name: "HomeMade Burger",
@@ -44,6 +47,7 @@ const items = [
     price: 80,
     image: legendary,
     rarity: 4,
+    state:"permanent"
   },
 ];
 
@@ -132,7 +136,7 @@ export default function ShopBurgers() {
             </div>
             <div className="item-body-info">
               <p>
-                {item.progressBar}/{item.progressBarMAx}
+                {item.progressBarMAx}/{item.progressBarMAx}
               </p>
               <div className="progress-box">
                 <div className="inventory-item-progressBar">
@@ -140,7 +144,7 @@ export default function ShopBurgers() {
                     className="inventory-item-progressBar-fill"
                     style={{
                       width: `${
-                        (item.progressBar / item.progressBarMAx) * 100
+                        (item.progressBarMAx / item.progressBarMAx) * 100
                       }%`,
                     }}
                   ></div>
