@@ -8,6 +8,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { LOADING, USER_DATA } from "../../redux/constanst";
 import Swal from "sweetalert2";
 
+const apiKey = process.env.REACT_APP_HOST;
+
 const items = [
   {
     name: "Classic Burger",
@@ -52,7 +54,7 @@ const items = [
 ];
 
 export const actualizarUser = async (userData, dispatch) =>{
-  const usuario = await axios.post("http://localhost:3001/api/user/login", {
+  const usuario = await axios.post(`${apiKey}/api/user/login`, {
     wallet: userData.wallet,
   });
 
@@ -62,7 +64,7 @@ export const enviarCompra = async (item, dispatch, userData) => {
   dispatch({ type: LOADING, loading: true });
   try{
     const respuesta = await axios.post(
-      "http://localhost:3001/api/user/createNftTemporal",
+      `${apiKey}/api/user/createNftTemporal`,
       item
     );
       console.log(respuesta)

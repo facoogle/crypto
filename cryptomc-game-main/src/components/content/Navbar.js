@@ -11,7 +11,11 @@ import { ethers } from "ethers";
 import axios from "axios";
 import { USER_DATA, CLEAR_DATA } from "../../redux/constanst";
 
+const apiKey = process.env.REACT_APP_HOST;
+
+
 function NavBar(props) {
+  
   const [login, setLogin] = useState(false);
   const { userData } = useSelector((state) => state.userState);
   const dispatch = useDispatch();
@@ -20,6 +24,7 @@ function NavBar(props) {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       await provider.send("eth_requestAccounts", []);
       const address = await sendWallet();
+      
     } catch {
       Swal.fire("No conectaste a metamask");
       console.log("error");
@@ -35,6 +40,8 @@ function NavBar(props) {
     } */
   };
 
+  
+
   const sendWallet = async (userData) => {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     try {
@@ -45,7 +52,7 @@ function NavBar(props) {
         if (!userData) {
           
           const usuario = await axios.post(
-            "http://localhost:3001/api/user/login",
+            `${apiKey}/api/user/login`,
             {
               wallet: address,
             }
@@ -58,6 +65,7 @@ function NavBar(props) {
         return address;
       
     } catch (err) {
+      
       setLogin(!login)
       dispatch({ type: CLEAR_DATA }); 
     }

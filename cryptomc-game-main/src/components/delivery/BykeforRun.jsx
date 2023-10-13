@@ -21,6 +21,7 @@ import axios from "axios";
 import { actualizarUser } from "../shop/ShopBurgers";
 
 export default function BykeforRun(props) {
+  const apiKey = process.env.REACT_APP_HOST;
   const dispatch = useDispatch();
   const { userData, bykeSelect, showByke } = useSelector((state) => state.userState);
   
@@ -207,7 +208,7 @@ export default function BykeforRun(props) {
       }
     }
     try {
-      const response = await axios.post('http://localhost:3001/api/user/deliveryStar', {
+      const response = await axios.post(`${apiKey}/api/user/deliveryStar`, {
         wallet: userData.wallet,
         progressLess: progressLess,
         burgerBag: burgerBag,
@@ -229,7 +230,7 @@ export default function BykeforRun(props) {
         setRateImg(check);
         setNumberResult(result);
         setFinalRate(nearSuccessRating);
-        await axios.post('http://localhost:3001/api/user/add',{coin: nearRewardcalc, wallet: userData.wallet})
+        await axios.post(`${apiKey}/api/user/add`,{coin: nearRewardcalc, wallet: userData.wallet})
         actualizarUser(userData, dispatch)
         reward = nearRewardcalc;
       } else {
@@ -248,7 +249,7 @@ export default function BykeforRun(props) {
         setNumberResult(result);
         setFinalRate(farSuccessRating);
         
-        await axios.post('http://localhost:3001/api/user/add',{coin: farRewardcalc, wallet: userData.wallet})
+        await axios.post(`${apiKey}/api/user/add`,{coin: farRewardcalc, wallet: userData.wallet})
 
         actualizarUser(userData, dispatch)
         reward = farRewardcalc;
