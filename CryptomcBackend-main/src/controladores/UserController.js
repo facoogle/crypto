@@ -16,7 +16,7 @@ createUser = async (req, res) => {
       wallet: wallet,
       cmsBalance: 0,
       cmsRetiro: 0,
-      token: 500,
+      token: 5000,
       gas: 0,
       contract: 0,
       nftTemporales: [],
@@ -92,7 +92,7 @@ createNftTemporal = async (req, res) => {
         state: "temporal",
         rarity: parseInt(rarity),
         score: 25,
-        progressBar: 0,
+        progressBar: 5,
         progressBarMax: 5,
         eventTime: 0,
       };
@@ -105,7 +105,7 @@ createNftTemporal = async (req, res) => {
         state: `${state}`,
         rarity: parseInt(rarity),
         score: score,
-        progressBar: 1,
+        progressBar: progressBarMAx,
         progressBarMax: progressBarMAx,
         eventTime: 0,
       };
@@ -161,12 +161,27 @@ deliveryStar = async (req, res) => {
      const burger = usuario.nftTemporales.filter((element) => element.type === "burger") 
     console.log(burger[0]._id)
 
+    // byke.map((data) => {
+    //   if (data._id.toString() === bykeSelect._id) {
+    //     data.progressBar += progressLess;
+    //     data.eventTime = now_timestamp
+    
+    //     if (data.progressBar >= data.progressBarMax) {
+    //       const indexToRemove = byke.indexOf(data);
+    //       if (indexToRemove !== -1) {
+    //         byke.splice(indexToRemove, 1);
+    //       }
+    //     }
+    //   }
+    //   return data;
+    // })
+
     byke.map((data) => {
       if (data._id.toString() === bykeSelect._id) {
-        data.progressBar += progressLess;
-        data.eventTime = now_timestamp
+        data.progressBar -= progressLess; // Restar en lugar de sumar
+        data.eventTime = now_timestamp;
     
-        if (data.progressBar >= data.progressBarMax) {
+        if (data.progressBar <= 0) { // Si llega a 0 o menos, elimínalo
           const indexToRemove = byke.indexOf(data);
           if (indexToRemove !== -1) {
             byke.splice(indexToRemove, 1);
@@ -177,16 +192,36 @@ deliveryStar = async (req, res) => {
     })
 
 
+    // burger.map((data) => {
+    //   console.log(data)
+    //   if (data._id.toString() === burgerBag[0]?._id || data._id.toString() === burgerBag[1]?._id || data._id.toString() === burgerBag[2]?._id ) {
+        
+    //     data.eventTime = now_timestamp
+    //     if (data.progressBar >= data.progressBarMax && data.state === 'temporal') {
+    //       data.progressBar -= progressLess;
+    //       const indexToRemove = burger.indexOf(data);
+    //       if (indexToRemove !== -1) {
+    //         burger.splice(indexToRemove, 1);
+    //       }
+    //     }
+    //   }
+    //   return data;
+    // })
+
     burger.map((data) => {
       console.log(data)
+      
       if (data._id.toString() === burgerBag[0]?._id || data._id.toString() === burgerBag[1]?._id || data._id.toString() === burgerBag[2]?._id ) {
-        
-        data.eventTime = now_timestamp
-        if (data.progressBar >= data.progressBarMax && data.state === 'temporal') {
-          data.progressBar += progressLess;
-          const indexToRemove = burger.indexOf(data);
-          if (indexToRemove !== -1) {
-            burger.splice(indexToRemove, 1);
+        data.eventTime = now_timestamp;
+    
+        if (data.progressBar <= data.progressBarMax && data.state === 'temporal') {
+          data.progressBar -= progressLess; // Restar en lugar de sumar
+    
+          if (data.progressBar <= 0) { // Si llega a 0 o menos, elimínalo
+            const indexToRemove = burger.indexOf(data);
+            if (indexToRemove !== -1) {
+              burger.splice(indexToRemove, 1);
+            }
           }
         }
       }

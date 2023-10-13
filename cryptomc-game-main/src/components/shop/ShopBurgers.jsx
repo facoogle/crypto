@@ -12,7 +12,7 @@ const items = [
   {
     name: "Classic Burger",
     score: 5.1,
-    progressBar: 0,
+    progressBar: 56,
     progressBarMAx: 56,
     price: 50,
     image: common,
@@ -22,7 +22,7 @@ const items = [
   {
     name: "Triple Cheese Burger",
     score: 7.5,
-    progressBar: 0,
+    progressBar: 56,
     progressBarMAx: 56,
     price: 60,
     image: uncommon,

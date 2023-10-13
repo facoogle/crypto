@@ -114,6 +114,23 @@ function NavBar(props) {
     );
   };
 
+  const MountUnmount2 = (value) => {
+    /* useEffect(() => {
+      if (wallet) {
+        dispatch(fetchUser(wallet));
+        console.log(wallet, "XD");
+      }
+    }, [wallet]); */
+    //console.log(user);
+
+    let token = 0;
+    return (
+      <button className="navbar-claim" style={{background:"green"}} href="#">
+        Game {userData ? userData?.token.toFixed(2): 0} $
+      </button>
+    );
+  };
+
   return (
     <Navbar className="navbar shadow-sm mb-5" expand>
       <div className="sidebar-header">
@@ -146,6 +163,7 @@ function NavBar(props) {
             BUY $CMC
           </a>
           <MountUnmount />
+          <MountUnmount2  />
           <img
             style={{ cursor: "pointer" }}
             src={logo}
