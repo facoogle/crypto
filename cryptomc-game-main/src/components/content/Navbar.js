@@ -40,7 +40,7 @@ function NavBar(props) {
     } */
   };
 
-  
+
 
   const sendWallet = async (userData) => {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -117,7 +117,7 @@ function NavBar(props) {
     let token = 0;
     return (
       <button className="navbar-claim" href="#">
-        CLAIM {userData ? userData?.token.toFixed(2): 0} $CMC
+        CLAIM {userData && userData.token ? userData.token.toFixed(2) : 0} $CMC
       </button>
     );
   };
@@ -134,10 +134,12 @@ function NavBar(props) {
     let token = 0;
     return (
       <button className="navbar-claim" style={{background:"green"}} href="#">
-        Game {userData ? userData?.token.toFixed(2): 0} $
+        Game {userData && userData.token ? userData.token.toFixed(2) : 0} $
       </button>
     );
   };
+
+  
 
   return (
     <Navbar className="navbar shadow-sm mb-5" expand>
@@ -172,6 +174,10 @@ function NavBar(props) {
           </a>
           <MountUnmount />
           <MountUnmount2  />
+          
+          <button onClick={() => connectMeta()} className="navbar-claim" style={{background:"orange"}} >
+          Connect Wallet
+          </button>
           <img
             style={{ cursor: "pointer" }}
             src={logo}
