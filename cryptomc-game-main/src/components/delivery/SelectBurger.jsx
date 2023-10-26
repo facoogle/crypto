@@ -67,6 +67,7 @@ export default function SelectBurger(props) {
                 className="invetory-item"
                 key={index}
                 style={{
+                  height:"300px",
                   background: {
                     1: common,
                     2: uncommon,
@@ -93,8 +94,8 @@ export default function SelectBurger(props) {
                     </div>
                   </div>
 
-                  <div className="id">
-                    <p>ID:{burger._id}</p>
+                  <div className="id" style={{display:"flex", justifyContent:"center"}}>
+                    <p style={{width:"160px", fontSize:"10px"}}>ID:{burger._id}</p>
                   </div>
                   <div className="stars">
                     <p>{burger.name} </p>

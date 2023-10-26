@@ -59,17 +59,7 @@ export default function ShopTools() {
       {items.map((item, index) => (
         <div
           className="shop-body-item"
-          onClick={() => {
-            item.wallet = userData.wallet
-            if (item.rarity === "Fuel") {
-              item.type = "gas";
-            } else if (item.rarity === "Contract") {
-              item.type = "contract";
-            } else {
-              item.type = "byke";
-            }
-            enviarCompra(item, dispactch, userData);
-          }}
+          
           style={{
             background: {
               1: Basic,
@@ -88,13 +78,23 @@ export default function ShopTools() {
             <img src={item.image} alt="burger" />
           </div>
           <div className="item-body-info">
-            <div className="item-body-footer">
+            <div className="item-body-footer" style={{display:"flex", justifyContent:"center"}}>
               {/*  <div className='item-body-counter'>
                                 <div className='item-body-sign'><p>-</p></div>
                                 <div className='item-body-number'><p>0</p></div>
                                 <div className='item-body-sign'><p>+</p></div>
                             </div> */}
-              <div className="item-body-price">
+              <div onClick={() => {
+            item.wallet = userData.wallet
+            if (item.rarity === "Fuel") {
+              item.type = "gas";
+            } else if (item.rarity === "Contract") {
+              item.type = "contract";
+            } else {
+              item.type = "byke";
+            }
+            enviarCompra(item, dispactch, userData);
+          }} className="item-body-price" style={{display:"flex", justifyContent:"center", marginTop:"28px"}}>
                 <p>{item.price}$ CMC</p>
               </div>
             </div>

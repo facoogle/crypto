@@ -114,7 +114,7 @@ export default function ShopBurgers() {
         console.log(item)
         return (
           <div
-            onClick={() => enviarCompra(item, dispatch, userData)}
+            
             className="shop-body-item"
             style={{
               background: {
@@ -152,7 +152,7 @@ export default function ShopBurgers() {
                   ></div>
                 </div>
               </div>
-              <div className="item-body-footer">
+              <div className="item-body-footer" style={{ display:"flex", justifyContent:"center"}}>
                 {/* <div className="item-body-counter">
                   <div
                     onClick={() => restarElemento(item)}
@@ -176,7 +176,7 @@ export default function ShopBurgers() {
                     <p>+</p>
                   </div>
                 </div> */}
-                <div className="item-body-price">
+                <div className="item-body-price" onClick={() => enviarCompra(item, dispatch, userData)} style={{display:"flex", justifyContent:"center"}}>
                   <p>{item.price}$ CMC</p>
                 </div>
               </div>

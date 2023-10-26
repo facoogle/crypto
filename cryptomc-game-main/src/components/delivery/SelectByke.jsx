@@ -38,7 +38,7 @@ export default function SelectByke(props) {
         <h2>Bike Inventory</h2>
         <div className='inventory-select'>
          {bykes.map((bike, index)=>(
-            <div className='invetory-item' key={index}>
+            <div className='invetory-item' key={index} style={{height:"300px"}}>
                 <div className='item-header'>
                     <div className='stars'>
                         <p>level: {bike.rarity}</p>

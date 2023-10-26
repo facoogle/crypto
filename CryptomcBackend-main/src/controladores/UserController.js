@@ -82,9 +82,9 @@ createNftTemporal = async (req, res) => {
       return res.status(404).json({ error: "Usuario no encontrado." });
     }
     if (type === "gas") {
-      usuario.gas += 1;
+      usuario.gas += 10;
     } else if (type === "contract") {
-      usuario.contract += 1;
+      usuario.contract += 10;
     } else if (type === "byke") {
       const nuevoNFTTemporal = {
         name: `${name}`,
@@ -92,8 +92,8 @@ createNftTemporal = async (req, res) => {
         state: "temporal",
         rarity: parseInt(rarity),
         score: 25,
-        progressBar: 5,
-        progressBarMax: 5,
+        progressBar: 10,
+        progressBarMax: 10,
         eventTime: 0,
       };
 
