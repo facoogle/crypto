@@ -214,7 +214,7 @@ deliveryStar = async (req, res) => {
       if (data._id.toString() === burgerBag[0]?._id || data._id.toString() === burgerBag[1]?._id || data._id.toString() === burgerBag[2]?._id ) {
         data.eventTime = now_timestamp;
     
-        if (data.progressBar <= data.progressBarMax && data.state === 'temporal') {
+        if (data.progressBar <= data.progressBarMax && data.state === 'temporal' || 'permanent') {
           data.progressBar -= progressLess; // Restar en lugar de sumar
     
           if (data.progressBar <= 0) { // Si llega a 0 o menos, elimínalo

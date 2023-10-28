@@ -39,7 +39,7 @@ const items = [
     price: 70,
     image: rare,
     rarity: 3,
-    state:"permanent"
+    state:"temporal"
   },
   {
     name: "HomeMade Burger",
@@ -49,7 +49,7 @@ const items = [
     price: 80,
     image: legendary,
     rarity: 4,
-    state:"permanent"
+    state:"temporal"
   },
 ];
 
