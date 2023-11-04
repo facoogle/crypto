@@ -149,6 +149,7 @@ add = async (req, res) => {
 deliveryStar = async (req, res) => {
   try {
     const { wallet, burgerBag, progressLess, bykeSelect, farOrNear } = req.body; //pide el id de la cuenta en vez de la wallet, ese id se consigue en la base de datos!
+    console.log(bykeSelect.progressBar, "SOY BYKESELECTED")
     const now_utc_date = new Date().toUTCString();
     const now_timestamp = new Date(now_utc_date).getTime();
     const usuario = await User.findOne({ wallet });
@@ -159,7 +160,7 @@ deliveryStar = async (req, res) => {
 
      const byke =   usuario.nftTemporales.filter((element) => element.type === "byke" )
      const burger = usuario.nftTemporales.filter((element) => element.type === "burger") 
-    console.log(burger[0]._id)
+    //console.log(burger[0]._id)
 
     // byke.map((data) => {
     //   if (data._id.toString() === bykeSelect._id) {
@@ -176,8 +177,10 @@ deliveryStar = async (req, res) => {
     //   return data;
     // })
 
+    const bykeFarOrNear = farOrNear === "near" ? 1 : 2;
+
     byke.map((data) => {
-      if (data._id.toString() === bykeSelect._id) {
+      if (data._id.toString() === bykeSelect._id && bykeSelect.progressBar >= bykeFarOrNear) {
         data.progressBar -= progressLess; // Restar en lugar de sumar
         data.eventTime = now_timestamp;
     
@@ -209,12 +212,12 @@ deliveryStar = async (req, res) => {
     // })
 
     burger.map((data) => {
-      console.log(data)
+      //console.log(data)
       
       if (data._id.toString() === burgerBag[0]?._id || data._id.toString() === burgerBag[1]?._id || data._id.toString() === burgerBag[2]?._id ) {
         data.eventTime = now_timestamp;
     
-        if (data.progressBar <= data.progressBarMax && data.state === 'temporal' || 'permanent') {
+        if (data.progressBar <= data.progressBarMax && data.state === 'temporal') {
           data.progressBar -= progressLess; // Restar en lugar de sumar
     
           if (data.progressBar <= 0) { // Si llega a 0 o menos, elimínalo
@@ -233,12 +236,13 @@ deliveryStar = async (req, res) => {
 
     const userGasCost = farOrNear === "near" ? 1 : 2;
     const userContractCost = farOrNear === "near" ? 1 : 2;
+    
 
-    if (usuario.gas >= userGasCost && usuario.contract >= userContractCost) {
+    if (usuario.gas >= userGasCost && usuario.contract >= userContractCost && bykeSelect.progressBar >= bykeFarOrNear) {
       usuario.gas -= userGasCost;
       usuario.contract -= userContractCost;
     } else {
-      return res.status(400).json({ error: "No tienes suficiente gas o contrato para esta acción." });
+      return res.status(400).json({ error: "No tienes suficiente gas, contrato o delivery para esta acción." });
     }
 
     await usuario.save();

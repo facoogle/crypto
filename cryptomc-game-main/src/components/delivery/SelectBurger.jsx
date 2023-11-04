@@ -120,7 +120,7 @@ export default function SelectBurger(props) {
                   <Timer
                     selectBurger={props.selectBurger}
                     close={props.close}
-                    eventTime={burger.eventTime}
+                    eventTime={0}
                     interval={0}
                     burger={burger}
                   />

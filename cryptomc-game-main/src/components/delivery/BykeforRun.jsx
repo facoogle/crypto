@@ -25,6 +25,8 @@ export default function BykeforRun(props) {
   const dispatch = useDispatch();
   const { userData, bykeSelect, showByke } = useSelector((state) => state.userState);
   
+  console.log(bykeSelect)
+
   const [burgerBag, setBurgerBag] = useState([]);
   const [currentSpace, setCurrentSpace] = useState([]);
   const [spaceDisponible, setSpaceDisponible] = useState([]);
@@ -43,7 +45,8 @@ export default function BykeforRun(props) {
   const [showAlert, setShowAlert] = useState(false);
   const [alertKey, setAlertKey] = useState("no alert");
 
-  const customSpace = 3;
+  var customSpace 
+  var counter
 
   useEffect(() => {
     if (bykeSelect !== null) {
@@ -65,7 +68,17 @@ export default function BykeforRun(props) {
 
   const emptySpace = () => {
     let spaceCounter = [];
-    const counter = customSpace - bykeSelect.rarity;
+    if(bykeSelect.rarity === 1){
+      counter = 1 - bykeSelect.rarity;
+    }
+    if(bykeSelect.rarity === 2){
+      counter = 2 - bykeSelect.rarity;
+    }
+    if(bykeSelect.rarity === 3){
+      counter = 3 - bykeSelect.rarity;
+    }
+     
+
     for (let i = 0; i < counter; i++) {
       spaceCounter.push([{ space: i }]);
     }
@@ -187,6 +200,16 @@ export default function BykeforRun(props) {
       setShowAlert(true);
       return;
     }
+    if (currentSpace.length < spaceDisponible.length) {
+      setAlertKey({
+        key: "Space",
+        header: "burgers are missing",
+        body: "You must fill in all the spaces",
+      });
+      setShowAlert(true);
+      return;
+    }
+
     /* if (bykeSelect.progressBar < progressLess) {
       setAlertKey({
         key: "noMoto",
@@ -221,7 +244,7 @@ export default function BykeforRun(props) {
     } catch (error) {
     
       console.error('Error:', error);
-      alert('Se produjo un error al realizar la solicitud a la API.');
+      alert('You have insufficient tools, check your gas, contracts and bikes');
     }
     
     if (farOrNear === "near") {
